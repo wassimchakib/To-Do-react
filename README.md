@@ -44,7 +44,13 @@
 <details>
   <summary>Client</summary>
   <ul>
-    <li><a href="https://reactjs.org/">React.js</a></li>
+    <li><a href="https://reactjs.org/">React</a></li>
+  </ul>
+  <ul>
+    <li><a href="https://reactjs.org/">CSS</a></li>
+  </ul>
+  <ul>
+    <li><a href="https://reactjs.org/">JS</a></li>
   </ul>
 </details>
 
