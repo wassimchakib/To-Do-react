@@ -8,25 +8,7 @@ import InputTodo from './InputTodo';
 class TodoContainer extends React.Component {
   constructor() {
     super();
-    this.state = {
-      todos: [
-        {
-          id: uuidv4(),
-          title: 'Setup development environment',
-          completed: true,
-        },
-        {
-          id: uuidv4(),
-          title: 'Develop website and add content',
-          completed: false,
-        },
-        {
-          id: uuidv4(),
-          title: 'Deploy to live server',
-          completed: false,
-        },
-      ],
-    };
+    this.state = JSON.parse(localStorage.getItem('data')) || { todos: [] };
 
     this.handleChange = (id) => {
       this.setState((prevState) => ({
@@ -60,6 +42,30 @@ class TodoContainer extends React.Component {
         todos: [...todos, newTodo],
       });
     };
+    this.setUpdate = (updatedTitle, id) => {
+      const { todos } = this.state;
+      this.setState({
+        todos: todos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              title: updatedTitle,
+            };
+          }
+          return todo;
+        }),
+      });
+    };
+  }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+      .then((response) => response.json())
+      .then((data) => this.setState({ todos: data }));
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('data', JSON.stringify(this.state));
   }
 
   render() {
@@ -73,6 +79,7 @@ class TodoContainer extends React.Component {
             todos={todos}
             handleChangeProps={this.handleChange}
             deleteTodoProps={this.delTodo}
+            setUpdate={this.setUpdate}
           />
         </div>
       </div>
